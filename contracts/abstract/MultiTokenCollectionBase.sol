@@ -1,0 +1,146 @@
+pragma ton-solidity >= 0.58.0;
+
+pragma AbiHeader expire;
+pragma AbiHeader pubkey;
+
+import "../interfaces/IMultiTokenCollection.sol";
+import "../interfaces/IMultiTokenBurnCallback.sol";
+import "../interfaces/IMultiTokenAcceptBurnCallback.sol";
+
+import "../modules/TIP6/TIP6.sol";
+
+import '../libraries/MsgFlag.sol';
+
+abstract contract MultiTokenCollectionBase is
+    TIP6,
+    IMultiTokenCollection,
+    IMultiTokenAcceptBurnCallback
+{
+    TvmCell _tokenCode;
+
+    mapping (uint256 => uint128) _tokenSupply;
+
+    event MultiTokenBurned(uint256 id, uint128 count, address owner);    
+
+    constructor(
+        TvmCell tokenCode,
+        address remainingGasTo
+    ) public {
+        tvm.accept();
+
+        _tokenCode = tokenCode;
+
+        _supportedInterfaces[bytes4(tvm.functionId(ITIP6.supportsInterface))] = true;
+        _supportedInterfaces[
+            bytes4(tvm.functionId(IMultiTokenCollection.totalMultiTokenSupply)) ^
+            bytes4(tvm.functionId(IMultiTokenCollection.multiTokenWalletCode)) ^
+            bytes4(tvm.functionId(IMultiTokenCollection.multiTokenCodeHash)) ^
+            bytes4(tvm.functionId(IMultiTokenCollection.multiTokenWalletAddress))
+        ] = true;
+
+        tvm.rawReserve(_targetBalance(), 0);
+
+        if (remainingGasTo.value != 0) {
+            remainingGasTo.transfer({
+                value: 0,
+                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
+                bounce: false
+            });
+        }
+    }
+
+    function totalMultiTokenSupply(uint256 tokenId) virtual override external view responsible returns (uint128 count)
+    {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } _tokenSupply[tokenId];
+    }
+
+    function multiTokenWalletCode() virtual override external view responsible returns (TvmCell code)
+    {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (_buildTokenCode(address(this)));
+    }
+
+    function multiTokenCodeHash() virtual override external view responsible returns (uint256 codeHash)
+    {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (tvm.hash(_buildTokenCode(address(this))));
+    }
+
+    function multiTokenWalletAddress(uint256 id, address owner) virtual override external view responsible returns (address token)
+    {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (_resolveToken(id, owner));
+    }
+
+    function onAcceptMultiTokensBurn(
+        uint128 count,
+        uint256 id,
+        address owner,
+        address remainingGasTo,
+        address callbackTo,
+        TvmCell payload
+    ) external internalMsg virtual override {
+        require(msg.sender == _resolveToken(id, owner));
+
+        _tokenSupply[id] -= count;
+        if (_tokenSupply[id] == 0) {
+            _decreaseTotalSupply();
+        }
+
+        emit MultiTokenBurned(id, count, owner);
+
+        if (callbackTo.value == 0) {
+            remainingGasTo.transfer({
+                value: 0,
+                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
+                bounce: false
+            });
+        } else {
+            IMultiTokenBurnCallback(callbackTo).onMultiTokenBurn{
+                value: 0,
+                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
+                bounce: false
+            }(
+                address(this),
+                id,
+                count,
+                owner,
+                msg.sender,
+                remainingGasTo,
+                payload
+            );
+        }
+    }
+
+    /// @notice build token code used TvmCell token code & salt (address collection) ... 
+    /// ... to create unique token address BC token code & id can be repeated
+    /// @param collection - collection address
+    /// @return TvmCell tokenCode 
+    /// about salt read more here (https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/API.md#tvmcodesalt)
+    function _buildTokenCode(address collection) internal virtual view returns (TvmCell) {
+        TvmBuilder salt;
+        salt.store(collection);
+        return tvm.setCodeSalt(_tokenCode, salt.toCell());
+    }
+
+    /// @notice Resolve token address by collection address, token id and owner address
+    /// @param id Unique token number
+    /// @param owner Owner contract address
+    function _resolveToken(uint256 id, address owner) internal virtual view returns (address token) {
+        TvmCell state = _buildTokenState(id, owner);
+        token = address(tvm.hash(state));
+    }
+
+    /// @notice Generates a StateInit from code, data and owner
+    /// @param id Unique token number
+    /// @param owner Owner contract address
+    /// @return TvmCell object - stateInit
+    /// about tvm.buildStateInit read more here (https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/API.md#tvmbuildstateinit)
+    function _buildTokenState(uint256 id, address owner) internal virtual view returns (TvmCell);
+
+    /// @notice Decrease totalSupply by 1
+    function _decreaseTotalSupply() internal virtual;
+
+    function _reserve() internal pure returns (uint128) {
+        return math.max(address(this).balance - msg.value, _targetBalance());
+    }
+
+    function _targetBalance() virtual internal pure returns (uint128);
+}

@@ -1,0 +1,19 @@
+{
+    "collectionJson": {
+        "type": "Basic NFT",
+        "name": "Venom Network Test Collection",
+        "description":
+        "Venom Network Test Collection description.",
+        "preview": {
+        "source": "https://",
+        "mimetype": "image/png"
+        },
+        "files": [
+        {
+            "source": "https://",
+            "mimetype": "image/png"
+        }
+        ],
+        "external_url": "https://venom.network/"
+    }
+}

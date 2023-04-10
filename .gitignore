@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+
+#KEYS
+*.key
+node_modules/
+.idea/
+locklift.config.ts
+migration-log.json
+
+build/Index*

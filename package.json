@@ -1,0 +1,30 @@
+{
+  "name": "nft-broxus",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "build": "npx locklift build",
+    "deploy:testnet": "npx locklift run --disable-build --script scripts/0-deploy-collection.ts --network testnet",
+    "set-owner:testnet": "npx locklift run --disable-build --script scripts/2-set-new-owner.ts --network testnet",
+    "test": "npx locklift test --network local",
+    "test:nb": "npx locklift test --disable-build --network local"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^9.1.0",
+    "big-number": "^2.0.0",
+    "bignumber.js": "^9.0.2",
+    "chai": "^4.3.4",
+    "everscale-standalone-client": "^2.1.18",
+    "locklift": "^2.5.1",
+    "mocha-logger": "^1.0.8",
+    "ora": "^3.4.0",
+    "prompts": "^2.4.1",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.7.4"
+  }
+}

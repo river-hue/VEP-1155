@@ -1,0 +1,47 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["time"],
+	"functions": [
+		{
+			"name": "royaltyInfo",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"salePrice","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"receiver","type":"address"},
+				{"name":"royaltyAmount","type":"uint128"}
+			]
+		},
+		{
+			"name": "supportsInterface",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"interfaceID","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"bool"}
+			]
+		},
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"_supportedInterfaces","type":"optional(cell)"},
+		{"name":"_royaltyAddress","type":"address"},
+		{"name":"_royalty","type":"uint128"}
+	]
+}
