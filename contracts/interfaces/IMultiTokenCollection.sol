@@ -12,7 +12,7 @@ interface IMultiTokenCollection {
 
     /// @notice This event emits when MultiTokens are burned
     /// @param id Unique MultiToken id
-    /// @return count Number of burned tokens
+    /// @param count Number of burned tokens
     /// @param owner Address of MultiToken wallet owner
     event MultiTokenBurned(uint256 id, uint128 count, address owner);    
 
