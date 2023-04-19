@@ -2,7 +2,7 @@ pragma ton-solidity >= 0.58.0;
 
 interface IMultiTokenCollection {
 
-    /// @notice This event emits when MulitToken is created
+    /// @notice This event emits when MultiToken is created
     /// @param id Unique MultiToken id
     /// @param token Address of MultiToken wallet contract
     /// @param owner Address of MultiToken wallet owner
@@ -10,9 +10,15 @@ interface IMultiTokenCollection {
     /// @param creator Address of creator that initialize mint
     event MultiTokenCreated(uint256 id, address token, uint128 balance, address owner, address creator);
 
+    /// @notice This event emits when MultiTokens are burned
+    /// @param id Unique MultiToken id
+    /// @return count Number of burned tokens
+    /// @param owner Address of MultiToken wallet owner
+    event MultiTokenBurned(uint256 id, uint128 count, address owner);    
+
     /// @notice Count total MultiToken supply
     /// @param tokenId Unique MultiToken id
-    /// @return count A count of active MultiTokens minted by this contract for specified tokenId
+    /// @return count Number of active MultiTokens minted by this contract for specified tokenId
     function totalMultiTokenSupply(uint256 tokenId) external view responsible returns (uint128 count);
 
     /// @notice Returns the MultiToken wallet code

@@ -20,8 +20,6 @@ abstract contract MultiTokenCollectionBase is
 
     mapping (uint256 => uint128) _tokenSupply;
 
-    event MultiTokenBurned(uint256 id, uint128 count, address owner);    
-
     constructor(
         TvmCell tokenCode,
         address remainingGasTo
