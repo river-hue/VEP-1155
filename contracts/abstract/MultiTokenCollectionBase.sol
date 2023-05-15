@@ -76,6 +76,7 @@ abstract contract MultiTokenCollectionBase is
         TvmCell payload
     ) external internalMsg virtual override {
         require(msg.sender == _resolveToken(id, owner));
+        tvm.rawReserve(_reserve(), 0);
 
         _tokenSupply[id] -= count;
         if (_tokenSupply[id] == 0) {
