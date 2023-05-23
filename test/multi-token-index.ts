@@ -103,13 +103,13 @@ describe("Test indexes", async function () {
         });
         const receiverWalletAddress = await Collections.multiTokenWalletAddress(collection, id, receiver.address);
 
-        const { codeHash } = await collection.methods.multiTokenCodeHash({ answerId: 0, tokenId: id, isEmpty: false  }).call();
+        const { codeHash } = await collection.methods.multiTokenCodeHash({ answerId: 0, id, isEmpty: false  }).call();
         const { accounts } = await locklift.provider.getAccountsByCodeHash({ codeHash: new BigNumber(codeHash).toString(16) });
 
-        const { codeHash: codeHashEmpty } = await collection.methods.multiTokenCodeHash({ answerId: 0, tokenId: id, isEmpty: true  }).call();
+        const { codeHash: codeHashEmpty } = await collection.methods.multiTokenCodeHash({ answerId: 0, id, isEmpty: true  }).call();
         const { accounts: accountsEmpty } = await locklift.provider.getAccountsByCodeHash({ codeHash: new BigNumber(codeHashEmpty).toString(16) });
 
-        const { codeHash: codeHashOther } = await collection.methods.multiTokenCodeHash({ answerId: 0, tokenId: otherId, isEmpty: false  }).call();
+        const { codeHash: codeHashOther } = await collection.methods.multiTokenCodeHash({ answerId: 0, id: otherId, isEmpty: false  }).call();
         const { accounts: accountsOther } = await locklift.provider.getAccountsByCodeHash({ codeHash: new BigNumber(codeHashOther).toString(16) });
 
 

@@ -73,7 +73,7 @@
 			"name": "multiTokenWalletCode",
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
-				{"name":"tokenId","type":"uint256"},
+				{"name":"id","type":"uint256"},
 				{"name":"isEmpty","type":"bool"}
 			],
 			"outputs": [
@@ -84,7 +84,7 @@
 			"name": "multiTokenCodeHash",
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
-				{"name":"tokenId","type":"uint256"},
+				{"name":"id","type":"uint256"},
 				{"name":"isEmpty","type":"bool"}
 			],
 			"outputs": [

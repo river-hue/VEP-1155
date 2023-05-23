@@ -46,14 +46,14 @@ abstract contract MultiTokenCollectionBase is
         }
     }
 
-    function multiTokenWalletCode(uint256 tokenId, bool isEmpty) virtual override external view responsible returns (TvmCell code)
+    function multiTokenWalletCode(uint256 id, bool isEmpty) virtual override external view responsible returns (TvmCell code)
     {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (_buildTokenCode(address(this), tokenId, isEmpty));
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (_buildTokenCode(address(this), id, isEmpty));
     }
 
-    function multiTokenCodeHash(uint256 tokenId, bool isEmpty) virtual override external view responsible returns (uint256 codeHash)
+    function multiTokenCodeHash(uint256 id, bool isEmpty) virtual override external view responsible returns (uint256 codeHash)
     {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (tvm.hash(_buildTokenCode(address(this), tokenId, isEmpty)));
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (tvm.hash(_buildTokenCode(address(this), id, isEmpty)));
     }
 
     function multiTokenWalletAddress(uint256 id, address owner) virtual override external view responsible returns (address token)

@@ -18,11 +18,11 @@ interface IMultiTokenCollection {
 
     /// @notice Returns the MultiToken wallet code
     /// @return code Returns the MultiToken wallet code as TvmCell
-    function multiTokenWalletCode(uint256 tokenId, bool isEmpty) external view responsible returns (TvmCell code);
+    function multiTokenWalletCode(uint256 id, bool isEmpty) external view responsible returns (TvmCell code);
 
     /// @notice Returns the MultiToken wallet code hash
     /// @return codeHash Returns the MultiToken wallet code hash
-    function multiTokenCodeHash(uint256 tokenId, bool isEmpty) external view responsible returns (uint256 codeHash);
+    function multiTokenCodeHash(uint256 id, bool isEmpty) external view responsible returns (uint256 codeHash);
 
     /// @notice Computes MultiToken wallet address by unique MultiToken id and its owner
     /// @dev Return unique address for all Ids and owners. You find nothing by address for not a valid MultiToken wallet
