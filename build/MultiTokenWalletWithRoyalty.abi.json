@@ -71,15 +71,6 @@
 			]
 		},
 		{
-			"name": "getJson",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"json","type":"string"}
-			]
-		},
-		{
 			"name": "getInfo",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
@@ -194,7 +185,6 @@
 		{"name":"_collection","type":"address"},
 		{"name":"_owner","type":"address"},
 		{"name":"_balance","type":"uint128"},
-		{"name":"_json","type":"string"},
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_codeIndex","type":"cell"},

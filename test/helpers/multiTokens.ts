@@ -30,14 +30,16 @@ export class MultiTokens {
         return contract.methods.getInfo({ answerId: 0 }).call();
     }
 
-    static async getJson(contract: AnyMultiTokenWalletContract): Promise<string> {
-        return (await contract.methods.getJson({ answerId: 0 }).call()).json;
-    }
-
     static async getBalance(contract: AnyMultiTokenWalletContract): Promise<number> {
         return Number(
             (await contract.methods.balance({ answerId: 0 }).call()).value
         );
+    }
+
+    static async getIndex(contract: AnyMultiTokenWalletContract): Promise<Address> {
+        const { collection, owner} = await MultiTokens.getInfo(contract);
+        const { index } = await contract.methods.resolveIndex({ answerId: 0, collection , owner }).call()
+        return index;
     }
 
     static async checkInfo(
@@ -64,11 +66,6 @@ export class MultiTokens {
                 "Wrong token owner"
             );
         }
-    }
-
-    static async checkJson(contract: AnyMultiTokenWalletContract, expected: string) {
-        const actual = await MultiTokens.getJson(contract);
-        expect(actual).to.be.eq(expected, "Wrong token JSON");
     }
 
     static async checkBalance(

@@ -43,7 +43,8 @@
 			],
 			"outputs": [
 				{"name":"value0","type":"uint256"},
-				{"name":"value1","type":"address"}
+				{"name":"value1","type":"address"},
+				{"name":"value2","type":"address"}
 			]
 		},
 		{
@@ -233,16 +234,6 @@
 	],
 	"events": [
 		{
-			"name": "MultiTokenBurned",
-			"inputs": [
-				{"name":"id","type":"uint256"},
-				{"name":"count","type":"uint128"},
-				{"name":"owner","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "MultiTokenCreated",
 			"inputs": [
 				{"name":"id","type":"uint256"},
@@ -250,6 +241,16 @@
 				{"name":"balance","type":"uint128"},
 				{"name":"owner","type":"address"},
 				{"name":"creator","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "MultiTokenBurned",
+			"inputs": [
+				{"name":"id","type":"uint256"},
+				{"name":"count","type":"uint128"},
+				{"name":"owner","type":"address"}
 			],
 			"outputs": [
 			]

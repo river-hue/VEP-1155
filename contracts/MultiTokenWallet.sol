@@ -43,7 +43,6 @@ contract MultiTokenWallet is
 		(
 			uint128 balance,
 			uint128 remainOnNft,
-            string json,
             uint128 indexDeployValue,
             uint128 indexDestroyValue,
             TvmCell codeIndex,
@@ -52,7 +51,6 @@ contract MultiTokenWallet is
         ) = abi.decode(params, (
             uint128,
             uint128,
-            string,
             uint128,
             uint128,
             TvmCell,
@@ -62,7 +60,6 @@ contract MultiTokenWallet is
 
         _initWalletBase(owner, collection, id, balance, remainOnNft, notify, payload, remainingGasTo);
         _initWalletDestroyable();
-        _initJson(json);
         _initIndexes(indexDeployValue, indexDestroyValue, codeIndex, collection, owner);
     }
 
@@ -80,7 +77,6 @@ contract MultiTokenWallet is
         TvmCell params = abi.encode(
 			uint128(0),
             uint128(TokenGas.TARGET_TOKEN_BALANCE),
-            _json,
             uint128(NftGas.INDEX_DEPLOY_VALUE),
             uint128(NftGas.INDEX_DESTROY_VALUE),
             _codeIndex,

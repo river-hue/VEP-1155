@@ -102,10 +102,36 @@ contract MultiTokenCollectionWithRoyalty is
         address remainingGasTo,
         bool notify,
         TvmCell payload
-    ) external internalMsg onlyOwner responsible returns(uint256, address) {
+    ) external internalMsg onlyOwner responsible returns(uint256, address, address) {
 
         uint256 tokenId = _beforeMint(tokenOwner);
         _tokenSupply[tokenId] += count;
+
+        TvmCell codeNft = _buildNftCode(address(this));
+        TvmCell stateNft = _buildNftState(codeNft, tokenId);
+        address nftAddr = new NftWithRoyalty{
+            stateInit: stateNft,
+            value: NftGas.NFT_DEPLOY_VALUE,
+            flag: MsgFlag.SENDER_PAYS_FEES
+        }(
+            address(this),
+            remainingGasTo,
+            NftGas.TARGET_NFT_BALANCE,
+            json,
+            NftGas.INDEX_DEPLOY_VALUE,
+            NftGas.INDEX_DESTROY_VALUE,
+            _codeIndex,
+            royaltyAddress,
+            royalty
+        ); 
+
+        emit NftCreated(
+            tokenId, 
+            nftAddr,
+            address(this),
+            address(this), 
+            msg.sender
+        );
 
         TvmCell tokenCode = _buildTokenCode(address(this));
         TvmCell tokenState = _buildTokenState(tokenId, tokenOwner);
@@ -113,7 +139,6 @@ contract MultiTokenCollectionWithRoyalty is
         TvmCell params = abi.encode(
 			count,
             uint128(TokenGas.TARGET_TOKEN_BALANCE),
-            json,
             uint128(NftGas.INDEX_DEPLOY_VALUE),
             uint128(NftGas.INDEX_DESTROY_VALUE),
             _codeIndex,
@@ -137,7 +162,7 @@ contract MultiTokenCollectionWithRoyalty is
             msg.sender
         );
         
-        return { value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED } (tokenId, tokenAddr);
+        return { value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED } (tokenId, tokenAddr, nftAddr);
     }
 
     function _beforeMint(address mintFor) internal returns (uint256) {
