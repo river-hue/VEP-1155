@@ -16,18 +16,13 @@ interface IMultiTokenCollection {
     /// @param owner Address of MultiToken wallet owner
     event MultiTokenBurned(uint256 id, uint128 count, address owner);    
 
-    /// @notice Count total MultiToken supply
-    /// @param tokenId Unique MultiToken id
-    /// @return count Number of active MultiTokens minted by this contract for specified tokenId
-    function totalMultiTokenSupply(uint256 tokenId) external view responsible returns (uint128 count);
-
     /// @notice Returns the MultiToken wallet code
     /// @return code Returns the MultiToken wallet code as TvmCell
-    function multiTokenWalletCode() external view responsible returns (TvmCell code);
+    function multiTokenWalletCode(uint256 tokenId, bool isEmpty) external view responsible returns (TvmCell code);
 
     /// @notice Returns the MultiToken wallet code hash
     /// @return codeHash Returns the MultiToken wallet code hash
-    function multiTokenCodeHash() external view responsible returns (uint256 codeHash);
+    function multiTokenCodeHash(uint256 tokenId, bool isEmpty) external view responsible returns (uint256 codeHash);
 
     /// @notice Computes MultiToken wallet address by unique MultiToken id and its owner
     /// @dev Return unique address for all Ids and owners. You find nothing by address for not a valid MultiToken wallet

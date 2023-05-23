@@ -20,21 +20,21 @@ abstract contract MultiTokenWalletDestroyable is
     }
 
     function _afterTokenTransfer(uint128 count, address recipient, address remainingGasTo) virtual override internal {
-        if (_balance == 0) { _destructIndex(_owner, _collection, remainingGasTo); _destroySalt(); }
-        if (_balance == count && recipient.value == _owner.value) { _deployIndex(_owner, _collection); _restoreSalt(); }
+        if (_balance == 0) { _destructIndex(_owner, _collection, remainingGasTo); _updateSalt(true); }
+        if (_balance == count && recipient.value == _owner.value) { _deployIndex(_owner, _collection); _updateSalt(false); }
     }
 
     function _afterTokenBurn(uint128 count, address remainingGasTo) virtual override internal {
         if (_balance == 0) {
             _destructIndex(_owner, _collection, remainingGasTo);
-            _destroySalt();
+            _updateSalt(true);
         }
     }
 
     function _afterTokenTransferBounce(uint128 count, address recipient) virtual override internal {
         if (_balance == count) {
             _deployIndex(_owner, _collection);
-            _restoreSalt();
+            _updateSalt(false);
         }
     }
 
@@ -45,15 +45,14 @@ abstract contract MultiTokenWalletDestroyable is
         selfdestruct(remainingGasTo);
     }
 
-    function _destroySalt() internal {
-        TvmCell emptySaltCode = tvm.setCodeSalt(tvm.code(), abi.encode(address(0)));
+    function _updateSalt(bool isEmpty) internal {
+        TvmBuilder salt;
+        salt.store(_collection);
+        salt.store(_id);
+        salt.store(isEmpty);
+
+        TvmCell emptySaltCode = tvm.setCodeSalt(tvm.code(), salt.toCell());
         tvm.setcode(emptySaltCode);
         tvm.setCurrentCode(emptySaltCode);
-    }
-
-    function _restoreSalt() internal {
-        TvmCell restoredSaltCode = tvm.setCodeSalt(tvm.code(), abi.encode(_collection));
-        tvm.setcode(restoredSaltCode);
-        tvm.setCurrentCode(restoredSaltCode);
     }
 }

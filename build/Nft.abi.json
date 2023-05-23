@@ -12,9 +12,33 @@
 				{"name":"json","type":"string"},
 				{"name":"indexDeployValue","type":"uint128"},
 				{"name":"indexDestroyValue","type":"uint128"},
-				{"name":"codeIndex","type":"cell"}
+				{"name":"codeIndex","type":"cell"},
+				{"name":"tokenSupply","type":"uint128"}
 			],
 			"outputs": [
+			]
+		},
+		{
+			"name": "multiTokenSupply",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"count","type":"uint128"}
+			]
+		},
+		{
+			"name": "burnToken",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"count","type":"uint128"},
+				{"name":"id","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+				{"name":"tokenSupply","type":"uint128"},
+				{"name":"next","type":"cell"}
 			]
 		},
 		{
@@ -173,6 +197,7 @@
 		{"name":"_json","type":"string"},
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
-		{"name":"_codeIndex","type":"cell"}
+		{"name":"_codeIndex","type":"cell"},
+		{"name":"_tokenSupply","type":"uint128"}
 	]
 }

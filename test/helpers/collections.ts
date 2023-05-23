@@ -130,7 +130,10 @@ export class Collections {
     }
 
     static async getTotalMultiTokenSupply(contract: AnyMultiTokenCollectionContract, id: string): Promise<number> {
-        return Number((await contract.methods.totalMultiTokenSupply({answerId: 0, tokenId: id}).call()).count);
+        let nftAddr = await Collections.nftAddress(contract, id)
+        let nft = Nfts.attachDeployed(nftAddr)
+
+        return Number((await nft.methods.multiTokenSupply({answerId: 0}).call()).count);
     }
 
     static async getOwner(contract: AnyMultiTokenCollectionContract): Promise<Address> {

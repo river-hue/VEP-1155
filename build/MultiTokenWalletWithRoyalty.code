@@ -29,24 +29,28 @@ PUSHREFSLICE {
 	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 }
 SETGLOB 13
-PUSHINT 0
+PUSHREFSLICE {
+	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+}
 SETGLOB 14
 PUSHINT 0
 SETGLOB 15
 PUSHINT 0
 SETGLOB 16
-PUSHREF {
-}
+PUSHINT 0
 SETGLOB 17
 PUSHREF {
 }
 SETGLOB 18
+PUSHREF {
+}
+SETGLOB 19
 PUSHREFSLICE {
 	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 }
-SETGLOB 19
-PUSHINT 0
 SETGLOB 20
+PUSHINT 0
+SETGLOB 21
 .loc ../contracts/MultiTokenWalletWithRoyalty.sol, 27
 CTOS
 LDU 256
@@ -63,40 +67,42 @@ LDREF
 LDREF
 ENDS
 .loc ../contracts/MultiTokenWalletWithRoyalty.sol, 43
-SETGLOB 18
+SETGLOB 19
 .loc ../contracts/MultiTokenWalletWithRoyalty.sol, 45
 CTOS
+LDMSGADDR
 LDU 128
 LDU 128
 LDU 128
-LDU 128
-LDREF
 LDREF
 ENDS
 CTOS
+LDU 128
+LDREF
 LDMSGADDR
 LDU 128
 LDI 1
 LDREF
 ENDS
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 67
-PUSH2 S10, S11
-ROLL 14
-BLKSWAP 2, 10
-BLKSWAP 2, 5
-ROLL 12
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 69
+PUSH2 S11, S12
+ROLL 11
+ROLL 15
+BLKSWAP 2, 11
+BLKSWAP 2, 6
+ROLL 13
 CALLREF {
-	CALL $_initWalletBase_45c11f3a_internal_macro$
+	CALL $_initWalletBase_49e7727f_internal_macro$
 }
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 68
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 70
 CALLREF {
 	CALL $_initWalletDestroyable_821978bb_internal_macro$
 }
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 69
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 71
 CALLREF {
 	CALL $_initRoyalty_f18c5700_internal_macro$
 }
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 70
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 72
 BLKSWAP 2, 3
 CALLREF {
 	CALL $_initIndexes_e5072d6d_internal_macro$
@@ -113,33 +119,35 @@ THROW 0
 CALL $_deployToken_24aa55fd_internal_macro$
 
 .macro _deployToken_24aa55fd_internal_macro
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 83
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 85
 PUSHREF {
 }
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 84
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 86
 FALSE
+GETGLOB 21
 GETGLOB 20
-GETGLOB 19
-GETGLOB 17
+GETGLOB 18
 PUSHINT 100000000
 PUSHINT 150000000
 PUSHINT 300000000
 PUSHINT 0
+GETGLOB 14
 NEWC
+STSLICE
 STU 128
 STU 128
 STU 128
+ROLLREV 6
+NEWC
 STU 128
 STREF
-ROLLREV 4
-NEWC
 STSLICE
 STU 128
 STI 1
 STREF
 STBREFR
 ENDC
-.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 96
+.loc ../contracts/MultiTokenWalletWithRoyalty.sol, 99
 SWAP
 GETGLOB 13
 ROT
@@ -207,9 +215,9 @@ CALL $_initRoyalty_f18c5700_internal_macro$
 
 .macro _initRoyalty_f18c5700_internal_macro
 .loc ../contracts/abstract/RoyaltySupport.sol, 19
-SETGLOB 20
+SETGLOB 21
 .loc ../contracts/abstract/RoyaltySupport.sol, 20
-SETGLOB 19
+SETGLOB 20
 .loc ../contracts/abstract/RoyaltySupport.sol, 22
 PUSHINT 1620509204
 GETGLOB 10
@@ -319,11 +327,11 @@ SETINDEXQ 1
 PUSHINT 64
 SETINDEXQ 4
 SETGLOB 4
-GETGLOB 20
+GETGLOB 21
 PUSHINT 1000000
 MULDIV
 UFITS 128
-GETGLOB 19
+GETGLOB 20
 SWAP
 .loc ../contracts/abstract/RoyaltySupport.sol, 0
 
@@ -455,7 +463,7 @@ DICTUSET
 NEWC
 STDICT
 ENDC
-GETGLOB 18
+GETGLOB 19
 NEWC
 STSLICECONST x2_
 STOPTREF
@@ -486,7 +494,7 @@ CALL $_afterTokenTransfer_018c3458_internal_macro$
 
 .macro _afterTokenTransfer_018c3458_internal_macro
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 23
-GETGLOB 14
+GETGLOB 15
 PUSHCONT {
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 23
 	GETGLOB 13
@@ -495,15 +503,16 @@ PUSHCONT {
 	CALLREF {
 		CALL $_destructIndex_9b191b1e_internal_macro$
 	}
+	TRUE
 	CALLREF {
-		CALL $_destroySalt_50205bed_internal_macro$
+		CALL $_updateSalt_a1f0d707_internal_macro$
 	}
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 0
 }
 IFNOT
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 24
 DROP
-GETGLOB 14
+GETGLOB 15
 ROT
 EQUAL
 DUP
@@ -527,8 +536,9 @@ PUSHCONT {
 	CALLREF {
 		CALL $_deployIndex_3683cd6a_internal_macro$
 	}
+	FALSE
 	CALLREF {
-		CALL $_restoreSalt_afddc17a_internal_macro$
+		CALL $_updateSalt_a1f0d707_internal_macro$
 	}
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 0
 }
@@ -542,7 +552,7 @@ CALL $_afterTokenBurn_1479714b_internal_macro$
 
 .macro _afterTokenBurn_1479714b_internal_macro
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 28
-GETGLOB 14
+GETGLOB 15
 PUSHCONT {
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 29
 	GETGLOB 13
@@ -552,8 +562,9 @@ PUSHCONT {
 		CALL $_destructIndex_9b191b1e_internal_macro$
 	}
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 30
+	TRUE
 	CALLREF {
-		CALL $_destroySalt_50205bed_internal_macro$
+		CALL $_updateSalt_a1f0d707_internal_macro$
 	}
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 0
 }
@@ -568,7 +579,7 @@ CALL $_afterTokenTransferBounce_3a6e19a0_internal_macro$
 .macro _afterTokenTransferBounce_3a6e19a0_internal_macro
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 35
 DROP
-GETGLOB 14
+GETGLOB 15
 EQUAL
 PUSHCONT {
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 36
@@ -578,8 +589,9 @@ PUSHCONT {
 		CALL $_deployIndex_3683cd6a_internal_macro$
 	}
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 37
+	FALSE
 	CALLREF {
-		CALL $_restoreSalt_afddc17a_internal_macro$
+		CALL $_updateSalt_a1f0d707_internal_macro$
 	}
 	.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 0
 }
@@ -616,7 +628,7 @@ CALLREF {
 THROW 0
 
 .macro destroy_00f55d9d_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 27
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 28
 PUSHINT 2301
 GETGLOB 9
 GETGLOB 13
@@ -624,7 +636,7 @@ SDEQ
 THROWANYIFNOT
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 42
 PUSHINT 2309
-GETGLOB 14
+GETGLOB 15
 EQINT 0
 THROWANYIFNOT
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 44
@@ -645,152 +657,24 @@ PUSHINT 160
 SENDRAWMSG
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 0
 
-.globl	_destroySalt_50205bed_internal
-.type	_destroySalt_50205bed_internal, @function
-CALL $_destroySalt_50205bed_internal_macro$
+.globl	_updateSalt_a1f0d707_internal
+.type	_updateSalt_a1f0d707_internal, @function
+CALL $_updateSalt_a1f0d707_internal_macro$
 
-.macro _destroySalt_50205bed_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 49
-MYCODE
-CTOS
-PUSHREF {
-	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
-}
-
-CALLREF {
-	PUSH S1
-	PUSHSLICE x8adb35
-	SDEQ
-	PUSHREFCONT {
-		SWAP      ; salt sliceCode
-		LDREF
-		LDREF
-		DROP         ; salt selfCallCode usualSelector
-		XCHG S1, S2  ; selfCallCode salt usualSelector
-		CTOS         ; selfCallCode salt usualSelector
-		CALLREF {
-			
-			LDREFRTOS  ; selfCallCode salt restUsualSelector intSelector
-
-			PUSHSLICE xF4A4_
-			SDBEGINSX
-			LDDICT     ; selfCallCode salt restUsualSelector dict intSelector
-			LDU 10
-			NIP
-			DUP
-			SREFS      ; selfCallCode salt restUsualSelector dict intSelector refs
-			PUSHCONT {
-				LDREF
-			}
-			PUSHCONT {
-				PUSHREF {
-				}
-				SWAP
-			}
-			IFELSE
-		                ; selfCallCode salt restUsualSelector dict version intSelector
-			PUSHSLICE xF4A1
-			SDBEGINSX
-			DROP
-			            ; selfCallCode salt restUsualSelector dict version
-			SWAP        ; selfCallCode salt restUsualSelector version dict
-			NEWC        ; selfCallCode salt restUsualSelector version dict builder
-			STSLICECONST xF4A4_ ; DICTPUSHCONST
-			STDICT
-			PUSHINT 32
-			STUR 10
-			STSLICECONST xF4A1 ; DICTUGETJMP
-			STREF       ; selfCallCode salt restUsualSelector builder
-			XCHG S1, S2 ; selfCallCode restUsualSelector salt builder
-			STREF       ; selfCallCode restUsualSelector builder
-			NEWC        ; selfCallCode restUsualSelector builder usualBuilder
-			STBREF      ; selfCallCode restUsualSelector usualBuilder
-			STSLICE     ; selfCallCode usualBuilder
-
-		}
-		NEWC        ; selfCallCode usualBuilder mainBuilder
-		STSLICECONST x8adb35
-		XCHG S1, S2 ; usualBuilder selfCallCode mainBuilder
-		STREF
-		STBREF
-		ENDC
-	}
-	PUSHREFCONT {
-		SWAP
-		CALLREF {
-			
-			LDREFRTOS  ; selfCallCode salt restUsualSelector intSelector
-
-			PUSHSLICE xF4A4_
-			SDBEGINSX
-			LDDICT     ; selfCallCode salt restUsualSelector dict intSelector
-			LDU 10
-			NIP
-			DUP
-			SREFS      ; selfCallCode salt restUsualSelector dict intSelector refs
-			PUSHCONT {
-				LDREF
-			}
-			PUSHCONT {
-				PUSHREF {
-				}
-				SWAP
-			}
-			IFELSE
-		                ; selfCallCode salt restUsualSelector dict version intSelector
-			PUSHSLICE xF4A1
-			SDBEGINSX
-			DROP
-			            ; selfCallCode salt restUsualSelector dict version
-			SWAP        ; selfCallCode salt restUsualSelector version dict
-			NEWC        ; selfCallCode salt restUsualSelector version dict builder
-			STSLICECONST xF4A4_ ; DICTPUSHCONST
-			STDICT
-			PUSHINT 32
-			STUR 10
-			STSLICECONST xF4A1 ; DICTUGETJMP
-			STREF       ; selfCallCode salt restUsualSelector builder
-			XCHG S1, S2 ; selfCallCode restUsualSelector salt builder
-			STREF       ; selfCallCode restUsualSelector builder
-			NEWC        ; selfCallCode restUsualSelector builder usualBuilder
-			STBREF      ; selfCallCode restUsualSelector usualBuilder
-			STSLICE     ; selfCallCode usualBuilder
-
-		}
-		ENDC
-	}
-	IFELSE
-}
+.macro _updateSalt_a1f0d707_internal_macro
 .loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 50
-DUP
-SETCODE
-.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 51
-CTOS
-DUP
-PUSHSLICE x8adb35
-SDEQ
-PUSHCONT {
-	PLDREFIDX 1
-	CTOS
-}
-IF
-PLDREF
-CTOS
-BLESS
-POP C3
-.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 0
-
-.globl	_restoreSalt_afddc17a_internal
-.type	_restoreSalt_afddc17a_internal, @function
-CALL $_restoreSalt_afddc17a_internal_macro$
-
-.macro _restoreSalt_afddc17a_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 55
-MYCODE
-CTOS
 GETGLOB 12
 NEWC
 STSLICE
+.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 51
+GETGLOB 11
+STUR 256
+.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 52
+STI 1
+.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 54
+MYCODE
+CTOS
+SWAP
 ENDC
 
 CALLREF {
@@ -897,10 +781,10 @@ CALLREF {
 	}
 	IFELSE
 }
-.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 56
+.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 55
 DUP
 SETCODE
-.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 57
+.loc ../contracts/abstract/MultiTokenWalletDestroyable.sol, 56
 CTOS
 DUP
 PUSHSLICE x8adb35
@@ -923,13 +807,13 @@ CALL $_initIndexes_e5072d6d_internal_macro$
 .macro _initIndexes_e5072d6d_internal_macro
 .loc ../contracts/abstract/TIP4_3NFT.sol, 27
 ROLL 4
-SETGLOB 15
+SETGLOB 16
 .loc ../contracts/abstract/TIP4_3NFT.sol, 28
 ROLL 3
-SETGLOB 16
+SETGLOB 17
 .loc ../contracts/abstract/TIP4_3NFT.sol, 29
 ROT
-SETGLOB 17
+SETGLOB 18
 .loc ../contracts/abstract/TIP4_3NFT.sol, 31
 GETGLOB 10
 PUSHINT 64331365
@@ -977,7 +861,7 @@ NEWC
 STSLICECONST x801_
 STU 256
 ROTREV
-GETGLOB 15
+GETGLOB 16
 ROLL 3
 NEWC
 STSLICECONST x62_
@@ -1037,7 +921,7 @@ NEWC
 STSLICECONST x801_
 STU 256
 ROTREV
-GETGLOB 15
+GETGLOB 16
 ROLL 3
 NEWC
 STSLICECONST x62_
@@ -1096,7 +980,7 @@ CALLREF {
 }
 .loc ../contracts/abstract/TIP4_3NFT.sol, 52
 OVER
-GETGLOB 16
+GETGLOB 17
 ROT
 NEWC
 STSLICECONST x62_
@@ -1120,7 +1004,7 @@ CALLREF {
 }
 .loc ../contracts/abstract/TIP4_3NFT.sol, 54
 SWAP
-GETGLOB 16
+GETGLOB 17
 ROT
 NEWC
 STSLICECONST x62_
@@ -1220,7 +1104,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 17
+GETGLOB 18
 .loc ../contracts/abstract/TIP4_3NFT.sol, 0
 
 .macro indexCodeHash
@@ -1311,7 +1195,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 17
+GETGLOB 18
 HASHCU
 .loc ../contracts/abstract/TIP4_3NFT.sol, 0
 
@@ -1459,7 +1343,7 @@ STSLICE
 .loc ../contracts/abstract/TIP4_3NFT.sol, 80
 STSLICE
 .loc ../contracts/abstract/TIP4_3NFT.sol, 81
-GETGLOB 17
+GETGLOB 18
 CTOS
 SWAP
 ENDC
@@ -1600,26 +1484,26 @@ STZERO
 ENDC
 .loc ../contracts/abstract/TIP4_3NFT.sol, 0
 
-.globl	_initWalletBase_45c11f3a_internal
-.type	_initWalletBase_45c11f3a_internal, @function
-CALL $_initWalletBase_45c11f3a_internal_macro$
+.globl	_initWalletBase_49e7727f_internal
+.type	_initWalletBase_49e7727f_internal, @function
+CALL $_initWalletBase_49e7727f_internal_macro$
 
-.macro _initWalletBase_45c11f3a_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 41
+.macro _initWalletBase_49e7727f_internal_macro
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 43
 PUSHINT 2303
 PUSH S5
 EQINT 0
 GETGLOB 9
-PUSH S9
+PUSH S10
 SDEQ
 OR
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 42
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 44
 PUSHINT 2302
 PUSH S4
 NEQINT 0
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 43
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 45
 PUSHINT 2304
 DEPTH
 ADDCONST -2
@@ -1627,23 +1511,26 @@ PICK
 PUSH S5
 GREATER
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 44
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 46
 ROLL 3
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 46
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 48
 ROLL 4
 SETGLOB 11
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 47
-PUSH S4
-SETGLOB 12
 .loc ../contracts/abstract/MultiTokenWalletBase.sol, 49
-ROLL 5
-SETGLOB 13
+PUSH S5
+SETGLOB 12
 .loc ../contracts/abstract/MultiTokenWalletBase.sol, 50
-PUSH S3
+ROLL 4
 SETGLOB 14
 .loc ../contracts/abstract/MultiTokenWalletBase.sol, 52
+ROLL 5
+SETGLOB 13
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 53
+PUSH S3
+SETGLOB 15
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 55
 PUSHINT 839183401
 GETGLOB 10
 NEWC
@@ -1653,7 +1540,7 @@ PUSHINT 32
 DICTUSETB
 DUP
 SETGLOB 10
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 53
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 56
 PUSHINT 1720048004
 PUSHINT 1231640703
 XOR
@@ -1672,7 +1559,7 @@ ROTREV
 PUSHINT 32
 DICTUSETB
 SETGLOB 10
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 62
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 65
 PUSH S3
 ROLL 5
 GETGLOB 13
@@ -1694,13 +1581,13 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 64
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 67
 ROT
 PUSH S3
 GTINT 0
 AND
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 65
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 68
 	DUP2
 	PUSH S4
 	GETGLOB 11
@@ -1734,7 +1621,7 @@ PUSHCONT {
 	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 0
 }
 IF
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 76
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 79
 DUP
 PARSEMSGADDR
 INDEX 3
@@ -1746,7 +1633,7 @@ SDEQ
 NOT
 AND
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 77
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 80
 	DUP
 	NEWC
 	STSLICECONST x42_
@@ -1773,7 +1660,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 85
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 88
 LDU 32
 GETGLOB 4
 ROT
@@ -1853,7 +1740,7 @@ IFREF {
 THROW 0
 
 .macro getInfo_5a9b0b89_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 87
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 90
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1876,7 +1763,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 90
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 93
 LDU 32
 GETGLOB 4
 ROT
@@ -1939,7 +1826,7 @@ IFREF {
 THROW 0
 
 .macro balance_b69ef8a8_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 92
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 95
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1948,7 +1835,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 14
+GETGLOB 15
 .loc ../contracts/abstract/MultiTokenWalletBase.sol, 0
 
 .macro transfer
@@ -1960,7 +1847,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 95
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 98
 OVER
 PUSHCONT {
 	LDREF
@@ -1989,24 +1876,24 @@ CALLREF {
 THROW 0
 
 .macro transfer_dd23fbfc_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 27
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 28
 PUSHINT 2301
 GETGLOB 9
 GETGLOB 13
 SDEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 107
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 110
 PUSHINT 2305
 PUSH S6
 GTINT 0
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 108
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 111
 PUSHINT 2306
 PUSH S6
-GETGLOB 14
+GETGLOB 15
 LEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 109
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 112
 PUSHINT 2307
 PUSH S5
 PARSEMSGADDR
@@ -2019,31 +1906,31 @@ SDEQ
 NOT
 AND
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 111
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 114
 PUSHINT 0
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 113
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 116
 PUSH S4
 CALLREF {
 	CALL $_buildTokenState_0746c1a7_internal_macro$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 115
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 118
 PUSHREFSLICE {
 	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 117
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 120
 PUSH S5
 GTINT 0
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 118
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 121
 	PUSH3 S1, S5, S4
 	CALLREF {
 		CALL $_deployToken_24aa55fd_internal_macro$
 	}
 }
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 120
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 123
 	OVER
 	HASHCU
 	NEWC
@@ -2054,20 +1941,20 @@ PUSHCONT {
 }
 IFELSE
 NIP
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 123
-GETGLOB 14
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 126
+GETGLOB 15
 PUSH S8
 SUB
 UFITS 128
-SETGLOB 14
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 125
+SETGLOB 15
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 128
 PUSH S7
 ROLL 7
 PUSH S6
 CALLREF {
 	CALL $_afterTokenTransfer_018c3458_internal_macro$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 127
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 130
 BLKSWAP 3, 2
 XCHG S2
 GETGLOB 13
@@ -2108,7 +1995,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 136
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 139
 OVER
 PUSHCONT {
 	LDREF
@@ -2136,24 +2023,24 @@ CALLREF {
 THROW 0
 
 .macro transferToWallet_de45c56e_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 27
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 28
 PUSHINT 2301
 GETGLOB 9
 GETGLOB 13
 SDEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 147
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 150
 PUSHINT 2305
 PUSH S5
 GTINT 0
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 148
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 151
 PUSHINT 2306
 PUSH S5
-GETGLOB 14
+GETGLOB 15
 LEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 149
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 152
 PUSHINT 2307
 PUSH S4
 PARSEMSGADDR
@@ -2166,22 +2053,22 @@ SDEQ
 NOT
 AND
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 151
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 154
 PUSHINT 0
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 153
-GETGLOB 14
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 156
+GETGLOB 15
 PUSH S5
 SUB
 UFITS 128
-SETGLOB 14
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 155
+SETGLOB 15
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 158
 BLKPUSH 3, 4
 CALLREF {
 	CALL $_afterTokenTransfer_018c3458_internal_macro$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 157
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 160
 XCHG S2
 GETGLOB 13
 BLKSWAP 2, 4
@@ -2219,7 +2106,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 166
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 169
 OVER
 PUSHCONT {
 	LDREF
@@ -2247,7 +2134,7 @@ CALLREF {
 THROW 0
 
 .macro acceptTransfer_cd4b2244_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 176
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 179
 PUSHINT 2308
 GETGLOB 9
 PUSH S5
@@ -2262,25 +2149,25 @@ ENDC
 CTOS
 SDEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 178
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 181
 PUSHINT 0
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 180
-GETGLOB 14
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 183
+GETGLOB 15
 PUSH S5
 ADD
 UFITS 128
-SETGLOB 14
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 182
+SETGLOB 15
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 185
 PUSH S4
 GETGLOB 13
 PUSH S4
 CALLREF {
 	CALL $_afterTokenTransfer_018c3458_internal_macro$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 184
-GETGLOB 14
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 187
+GETGLOB 15
 PUSH S5
 GETGLOB 13
 GETGLOB 9
@@ -2306,10 +2193,10 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 186
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 189
 SWAP
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 187
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 190
 	PUSH2 S0, S1
 	GETGLOB 9
 	PUSH2 S5, S6
@@ -2346,7 +2233,7 @@ PUSHCONT {
 	STBREFR
 }
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 201
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 204
 	OVER
 	NEWC
 	STSLICECONST x42_
@@ -2372,7 +2259,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 205
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 208
 OVER
 PUSHCONT {
 	LDREF
@@ -2399,39 +2286,39 @@ CALLREF {
 THROW 0
 
 .macro burn_8339e03e_internal_macro
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 27
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 28
 PUSHINT 2301
 GETGLOB 9
 GETGLOB 13
 SDEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 215
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 218
 PUSHINT 2305
 PUSH S4
 GTINT 0
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 216
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 219
 PUSHINT 2306
 PUSH S4
-GETGLOB 14
+GETGLOB 15
 LEQ
 THROWANYIFNOT
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 218
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 221
 PUSHINT 0
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 220
-GETGLOB 14
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 223
+GETGLOB 15
 PUSH S4
 SUB
 UFITS 128
-SETGLOB 14
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 221
+SETGLOB 15
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 224
 OVER2
 CALLREF {
 	CALL $_afterTokenBurn_1479714b_internal_macro$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 223
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 226
 XCHG S2
 GETGLOB 13
 GETGLOB 11
@@ -2474,35 +2361,35 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 242
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 245
 PUSHINT 0
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 244
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 247
 DUP
 LDU 32
 POP S2
-.loc ../contracts/abstract/MultiTokenWalletBase.sol, 246
+.loc ../contracts/abstract/MultiTokenWalletBase.sol, 249
 PUSHINT 1671567355
 EQUAL
 PUSHCONT {
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 247
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 250
 	DUP
 	LDU 128
 	POP S2
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 248
-	GETGLOB 14
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 251
+	GETGLOB 15
 	OVER
 	ADD
 	UFITS 128
-	SETGLOB 14
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 249
+	SETGLOB 15
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 252
 	DUP
 	GETGLOB 9
 	CALLREF {
 		CALL $_afterTokenTransferBounce_3a6e19a0_internal_macro$
 	}
-	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 250
+	.loc ../contracts/abstract/MultiTokenWalletBase.sol, 253
 	GETGLOB 9
 	SWAP
 	GETGLOB 11
@@ -2650,6 +2537,10 @@ LDREF
 ENDS
 CTOS
 LDMSGADDR
+LDREF
+ENDS
+CTOS
+LDMSGADDR
 LDU 128
 LDU 128
 LDU 128
@@ -2661,6 +2552,7 @@ CTOS
 LDMSGADDR
 LDU 128
 ENDS
+SETGLOB 21
 SETGLOB 20
 SETGLOB 19
 SETGLOB 18
@@ -2690,7 +2582,7 @@ PUSHCONT {
 	PUSHREFSLICE {
 		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 	}
-	DUP
+	BLKPUSH 2, 0
 	PUSHINT 0
 	BLKPUSH 2, 0
 	PUSHREF {
@@ -2700,6 +2592,7 @@ PUSHCONT {
 		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 	}
 	PUSHINT 0
+	SETGLOB 21
 	SETGLOB 20
 	SETGLOB 19
 	SETGLOB 18
@@ -2724,6 +2617,7 @@ IFREFELSE {
 }
 
 .macro c7_to_c4
+GETGLOB 21
 GETGLOB 20
 GETGLOB 19
 GETGLOB 18
@@ -2743,6 +2637,9 @@ STU 64
 STONE
 STDICT
 STU 256
+ROLLREV 10
+NEWC
+STSLICE
 ROLLREV 9
 NEWC
 STSLICE
@@ -2758,6 +2655,7 @@ ROTREV
 NEWC
 STSLICE
 STU 128
+STBREFR
 STBREFR
 STBREFR
 STBREFR

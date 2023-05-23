@@ -20,6 +20,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
     uint256 _id;
     address _collection;
     address _owner;
+    address _nft;
 
     uint128 _balance;
 
@@ -31,6 +32,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
     function _initWalletBase(
         address owner,
         address collection,
+        address nft,
         uint256 id,
         uint128 balance,
         uint128 remainOnNft,
@@ -45,6 +47,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
 
         _id = id;
         _collection = collection;
+        _nft = nft;
 
         _owner = owner;
         _balance = balance;

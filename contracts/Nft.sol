@@ -9,9 +9,14 @@ import './modules/TIP4_2/TIP4_2Nft.sol';
 import './modules/TIP4_3/TIP4_3Nft.sol';
 import './libraries/MsgFlag.sol';
 import './libraries/NftGas.sol';
+import './interfaces/IMultiTokenNftBurn.sol';
+import './interfaces/IMultiTokenNft.sol';
+
 import './interfaces/INFTAcceptBurnCallback.sol';
 
-contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft {
+contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft, IMultiTokenNftBurn, IMultiTokenNft {
+
+    uint128 _tokenSupply;
 
     constructor(
         address owner,
@@ -20,7 +25,8 @@ contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft {
         string json,
         uint128 indexDeployValue,
         uint128 indexDestroyValue,
-        TvmCell codeIndex
+        TvmCell codeIndex,
+        uint128 tokenSupply
     ) TIP4_1Nft(
         owner,
         sendGasTo,
@@ -33,6 +39,22 @@ contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft {
         codeIndex
     ) public {
         tvm.accept();
+        _tokenSupply = tokenSupply;
+    }
+
+    function multiTokenSupply() external view override responsible returns (uint128 count) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } (_tokenSupply);
+    }
+
+    function burnToken(
+        uint128 count,
+        uint256 id,
+        address owner,
+        TvmCell payload
+    ) external responsible override returns (uint128 tokenSupply, TvmCell next) {
+        require(msg.sender == _collection);
+        _tokenSupply -= count;
+        return { value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED } (_tokenSupply, payload);
     }
 
     function _beforeTransfer(

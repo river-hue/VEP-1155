@@ -106,4 +106,13 @@ export class Nfts {
             );
         }
     }
+
+    static async getMultiTokenSupply(contract: NftWithRoyaltyContract): Promise<number> {
+        return contract.methods.multiTokenSupply({answerId: 0}).call().then(k => k.count);
+    }
+
+    static async checkMultiTokenSupply(contract: NftWithRoyaltyContract, expected: number) {
+        let supply = await Nfts.getMultiTokenSupply(contract);
+        expect(supply).to.be.eq(expected)
+    }
 }

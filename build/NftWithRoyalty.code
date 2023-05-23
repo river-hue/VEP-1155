@@ -31,10 +31,10 @@ ENDS
 CTOS
 LDMSGADDR
 LDU 128
+LDU 128
 ENDS
-ROLL 6
-XCHG S1, S7
-XCHG S2, S8
+BLKSWAP 7, 3
+BLKSWAP 4, 4
 .loc ../contracts/modules/TIP4_1/TIP4_1Nft.sol, 56
 MYCODE
 
@@ -207,7 +207,7 @@ ENDC
 PUSHINT 130
 SENDRAWMSG
 .loc ../contracts/modules/TIP4_1/TIP4_1Nft.sol, 0
-ROLL 3
+ROLL 4
 .loc ../contracts/modules/TIP4_2/TIP4_2Nft.sol, 25
 SETGLOB 15
 .loc ../contracts/modules/TIP4_2/TIP4_2Nft.sol, 27
@@ -220,7 +220,7 @@ PUSHINT 32
 DICTUSETB
 SETGLOB 10
 .loc ../contracts/modules/TIP4_2/TIP4_2Nft.sol, 0
-ROT
+XCHG S3
 .loc ../contracts/modules/TIP4_3/TIP4_3Nft.sol, 30
 SETGLOB 16
 .loc ../contracts/modules/TIP4_3/TIP4_3Nft.sol, 31
@@ -246,9 +246,11 @@ SETGLOB 10
 CALLREF {
 	CALL $_deployIndex_367ac79d_internal_macro$
 }
-.loc ../contracts/Nft.sol, 35
+.loc ../contracts/Nft.sol, 41
 ACCEPT
-.loc ../contracts/NftWithRoyalty.sol, 31
+.loc ../contracts/Nft.sol, 42
+SETGLOB 19
+.loc ../contracts/NftWithRoyalty.sol, 33
 CALLREF {
 	CALL $_initRoyalty_f18c5700_internal_macro$
 }
@@ -264,9 +266,9 @@ CALL $_initRoyalty_f18c5700_internal_macro$
 
 .macro _initRoyalty_f18c5700_internal_macro
 .loc ../contracts/abstract/RoyaltySupport.sol, 19
-SETGLOB 20
+SETGLOB 21
 .loc ../contracts/abstract/RoyaltySupport.sol, 20
-SETGLOB 19
+SETGLOB 20
 .loc ../contracts/abstract/RoyaltySupport.sol, 22
 PUSHINT 1620509204
 GETGLOB 10
@@ -376,20 +378,225 @@ SETINDEXQ 1
 PUSHINT 64
 SETINDEXQ 4
 SETGLOB 4
-GETGLOB 20
+GETGLOB 21
 PUSHINT 1000000
 MULDIV
 UFITS 128
-GETGLOB 19
+GETGLOB 20
 SWAP
 .loc ../contracts/abstract/RoyaltySupport.sol, 0
+
+.macro multiTokenSupply
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Nft.sol, 45
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/Nft.sol, 0
+CALLREF {
+	CALL $multiTokenSupply_ba9457bb_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 2755459198
+	STUR 130
+	STU 128
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STU 128
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro multiTokenSupply_ba9457bb_internal_macro
+.loc ../contracts/Nft.sol, 46
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 19
+.loc ../contracts/Nft.sol, 0
+
+.macro burnToken
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Nft.sol, 49
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+	LDU 128
+	LDU 256
+}
+PUSHCONT {
+	LDU 128
+	LDU 256
+	LDREF
+	ENDS
+	CTOS
+}
+IFELSE
+LDMSGADDR
+LDREF
+ENDS
+.loc ../contracts/Nft.sol, 0
+CALLREF {
+	CALL $burnToken_79901423_internal_macro$
+}
+PUSH S2
+PUSHCONT {
+	PUSH S4
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 98
+	STZEROES
+	REVERSE 2, 1
+	STSLICECONST x87b3cc2a
+	STU 128
+	STREF
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	REVERSE 2, 1
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STU 128
+	STREF
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+DROP
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro burnToken_79901423_internal_macro
+.loc ../contracts/Nft.sol, 55
+GETGLOB 9
+GETGLOB 12
+SDEQ
+THROWIFNOT 100
+.loc ../contracts/Nft.sol, 56
+GETGLOB 19
+ROLL 4
+SUB
+UFITS 128
+SETGLOB 19
+.loc ../contracts/Nft.sol, 57
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+FALSE
+SETINDEXQ 1
+PUSHPOW2 7
+SETINDEXQ 4
+SETGLOB 4
+GETGLOB 19
+SWAP
+BLKDROP2 2, 2
+.loc ../contracts/Nft.sol, 0
 
 .globl	_beforeTransfer_63506687_internal
 .type	_beforeTransfer_63506687_internal, @function
 CALL $_beforeTransfer_63506687_internal_macro$
 
 .macro _beforeTransfer_63506687_internal_macro
-.loc ../contracts/Nft.sol, 43
+.loc ../contracts/Nft.sol, 65
 CALLREF {
 	CALL $TIP4_3Nft__beforeTransfer_63506687_macro$
 }
@@ -400,7 +607,7 @@ CALLREF {
 CALL $_afterTransfer_324f3fbc_internal_macro$
 
 .macro _afterTransfer_324f3fbc_internal_macro
-.loc ../contracts/Nft.sol, 51
+.loc ../contracts/Nft.sol, 73
 CALLREF {
 	CALL $TIP4_3Nft__afterTransfer_324f3fbc_macro$
 }
@@ -411,7 +618,7 @@ CALLREF {
 CALL $_beforeChangeOwner_181183e6_internal_macro$
 
 .macro _beforeChangeOwner_181183e6_internal_macro
-.loc ../contracts/Nft.sol, 60
+.loc ../contracts/Nft.sol, 82
 CALLREF {
 	CALL $TIP4_3Nft__beforeChangeOwner_181183e6_macro$
 }
@@ -422,7 +629,7 @@ CALLREF {
 CALL $_afterChangeOwner_25282549_internal_macro$
 
 .macro _afterChangeOwner_25282549_internal_macro
-.loc ../contracts/Nft.sol, 69
+.loc ../contracts/Nft.sol, 91
 CALLREF {
 	CALL $TIP4_3Nft__afterChangeOwner_25282549_macro$
 }
@@ -437,7 +644,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Nft.sol, 72
+.loc ../contracts/Nft.sol, 94
 OVER
 PUSHCONT {
 	LDREF
@@ -458,7 +665,7 @@ CALLREF {
 THROW 0
 
 .macro burn_89afcb44_internal_macro
-.loc ../contracts/Nft.sol, 72
+.loc ../contracts/Nft.sol, 94
 DEPTH
 ADDCONST -5
 PICK
@@ -468,9 +675,9 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWIFNOT 103
-.loc ../contracts/Nft.sol, 73
+.loc ../contracts/Nft.sol, 95
 ACCEPT
-.loc ../contracts/Nft.sol, 74
+.loc ../contracts/Nft.sol, 96
 GETGLOB 14
 GETGLOB 13
 GETGLOB 11
@@ -496,12 +703,12 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/Nft.sol, 80
+.loc ../contracts/Nft.sol, 102
 DUP
 CALLREF {
 	CALL $_destructIndex_d3dd7d3c_internal_macro$
 }
-.loc ../contracts/Nft.sol, 81
+.loc ../contracts/Nft.sol, 103
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -2239,12 +2446,14 @@ LDREF
 LDU 128
 LDU 128
 LDREF
+LDU 128
 LDREF
 ENDS
 CTOS
 LDMSGADDR
 LDU 128
 ENDS
+SETGLOB 21
 SETGLOB 20
 SETGLOB 19
 SETGLOB 18
@@ -2289,10 +2498,12 @@ PUSHCONT {
 	DUP
 	PUSHREF {
 	}
+	PUSHINT 0
 	PUSHREFSLICE {
 		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 	}
 	PUSHINT 0
+	SETGLOB 21
 	SETGLOB 20
 	SETGLOB 19
 	SETGLOB 18
@@ -2317,6 +2528,7 @@ IFREFELSE {
 }
 
 .macro c7_to_c4
+GETGLOB 21
 GETGLOB 20
 GETGLOB 19
 GETGLOB 18
@@ -2336,19 +2548,20 @@ STU 64
 STONE
 STDICT
 STU 256
+ROLLREV 10
+NEWC
+STSLICE
 ROLLREV 9
 NEWC
 STSLICE
 ROLLREV 8
 NEWC
 STSLICE
-ROLLREV 7
-NEWC
-STSLICE
 STREF
 STU 128
 STU 128
 STREF
+STU 128
 ROTREV
 NEWC
 STSLICE
@@ -2496,16 +2709,16 @@ IFJMPREF {
 		CALL $indexCode$
 	}
 	DUP
+	PUSHINT 129223722
+	EQUAL
+	IFJMPREF {
+		CALL $burnToken$
+	}
+	DUP
 	PUSHINT 152407530
 	EQUAL
 	IFJMPREF {
 		CALL $changeManager$
-	}
-	DUP
-	PUSHINT 216461079
-	EQUAL
-	IFJMPREF {
-		CALL $constructor$
 	}
 	DUP
 	PUSHINT 297752426
@@ -2515,7 +2728,7 @@ IFJMPREF {
 	}
 }
 DUP
-PUSHINT 618124789
+PUSHINT 607975550
 LEQ
 IFJMPREF {
 	DUP
@@ -2537,16 +2750,22 @@ IFJMPREF {
 		CALL $burn$
 	}
 	DUP
+	PUSHINT 607975550
+	EQUAL
+	IFJMPREF {
+		CALL $multiTokenSupply$
+	}
+}
+DUP
+PUSHINT 1525619880
+LEQ
+IFJMPREF {
+	DUP
 	PUSHINT 618124789
 	EQUAL
 	IFJMPREF {
 		CALL $getJson$
 	}
-}
-DUP
-PUSHINT 1904151404
-LEQ
-IFJMPREF {
 	DUP
 	PUSHINT 839183401
 	EQUAL
@@ -2554,11 +2773,22 @@ IFJMPREF {
 		CALL $supportsInterface$
 	}
 	DUP
+	PUSHINT 945588570
+	EQUAL
+	IFJMPREF {
+		CALL $constructor$
+	}
+	DUP
 	PUSHINT 1525619880
 	EQUAL
 	IFJMPREF {
 		CALL $resolveIndex$
 	}
+}
+DUP
+PUSHINT 1904151404
+LEQ
+IFJMPREF {
 	DUP
 	PUSHINT 1620509204
 	EQUAL
