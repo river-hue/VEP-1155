@@ -157,7 +157,7 @@ contract MultiTokenCollection is
         return { value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED } (tokenId, tokenAddr, nftAddr);
     }
 
-    function onAcceptMultiTokensBurn(
+function onAcceptMultiTokensBurn(
         uint128 count,
         uint256 id,
         address owner,
@@ -173,9 +173,24 @@ contract MultiTokenCollection is
         TvmCell params = abi.encode(count, id, owner, remainingGasTo, callbackTo, payload);
 
         IMultiTokenNftBurn(nft).burnToken{
-            callback: MultiTokenCollection.onTokenSupplyUpdate, value: 0.02 ton, flag: 0
+            callback: MultiTokenCollection.onTokenSupplyUpdate, value: 0, flag: MsgFlag.ALL_NOT_RESERVED
             }(count, id, owner, params);
         
+    }
+
+    function onTokenSupplyUpdate(uint128 tokenSupply, TvmCell params) external {
+        (uint128 count,
+        uint256 id,
+        address owner,
+        address remainingGasTo,
+        address callbackTo,
+        TvmCell payload) = abi.decode(params, (uint128, uint256, address, address, address, TvmCell));
+        require(msg.sender == _resolveNft(id));
+
+        if (tokenSupply == 0) {
+            _decreaseTotalSupply();
+        }
+
         emit MultiTokenBurned(id, count, owner);
 
         if (callbackTo.value == 0) {
@@ -199,22 +214,6 @@ contract MultiTokenCollection is
                 payload
             );
         }
-        
-    }
-
-    function onTokenSupplyUpdate(uint128 tokenSupply, TvmCell params) external {
-        (uint128 count,
-        uint256 id,
-        address owner,
-        address remainingGasTo,
-        address callbackTo,
-        TvmCell payload) = abi.decode(params, (uint128, uint256, address, address, address, TvmCell));
-        require(msg.sender == _resolveNft(id));
-
-        if (tokenSupply == 0) {
-            _decreaseTotalSupply();
-        }
-
     }
 
     function _beforeMint(address mintFor) internal returns (uint256) {
