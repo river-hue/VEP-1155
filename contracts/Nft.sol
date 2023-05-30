@@ -40,6 +40,7 @@ contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft, IMultiTokenNftBurn, IMultiToken
     ) public {
         tvm.accept();
         _tokenSupply = tokenSupply;
+        _supportedInterfaces[bytes4(tvm.functionId(IMultiTokenNft.multiTokenSupply))] = true;
     }
 
     function multiTokenSupply() external view override responsible returns (uint128 count) {

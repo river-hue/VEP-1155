@@ -250,6 +250,15 @@ CALLREF {
 ACCEPT
 .loc ../contracts/Nft.sol, 42
 SETGLOB 19
+.loc ../contracts/Nft.sol, 43
+PUSHINT 607975550
+GETGLOB 10
+NEWC
+STONE
+ROTREV
+PUSHINT 32
+DICTUSETB
+SETGLOB 10
 .loc ../contracts/NftWithRoyalty.sol, 33
 CALLREF {
 	CALL $_initRoyalty_f18c5700_internal_macro$
@@ -395,7 +404,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Nft.sol, 45
+.loc ../contracts/Nft.sol, 46
 LDU 32
 GETGLOB 4
 ROT
@@ -458,7 +467,7 @@ IFREF {
 THROW 0
 
 .macro multiTokenSupply_ba9457bb_internal_macro
-.loc ../contracts/Nft.sol, 46
+.loc ../contracts/Nft.sol, 47
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -479,7 +488,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Nft.sol, 49
+.loc ../contracts/Nft.sol, 50
 LDU 32
 GETGLOB 4
 ROT
@@ -566,18 +575,18 @@ CALLREF {
 THROW 0
 
 .macro burnToken_79901423_internal_macro
-.loc ../contracts/Nft.sol, 55
+.loc ../contracts/Nft.sol, 56
 GETGLOB 9
 GETGLOB 12
 SDEQ
 THROWIFNOT 100
-.loc ../contracts/Nft.sol, 56
+.loc ../contracts/Nft.sol, 57
 GETGLOB 19
 ROLL 4
 SUB
 UFITS 128
 SETGLOB 19
-.loc ../contracts/Nft.sol, 57
+.loc ../contracts/Nft.sol, 58
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -596,7 +605,7 @@ BLKDROP2 2, 2
 CALL $_beforeTransfer_63506687_internal_macro$
 
 .macro _beforeTransfer_63506687_internal_macro
-.loc ../contracts/Nft.sol, 65
+.loc ../contracts/Nft.sol, 66
 CALLREF {
 	CALL $TIP4_3Nft__beforeTransfer_63506687_macro$
 }
@@ -607,7 +616,7 @@ CALLREF {
 CALL $_afterTransfer_324f3fbc_internal_macro$
 
 .macro _afterTransfer_324f3fbc_internal_macro
-.loc ../contracts/Nft.sol, 73
+.loc ../contracts/Nft.sol, 74
 CALLREF {
 	CALL $TIP4_3Nft__afterTransfer_324f3fbc_macro$
 }
@@ -618,7 +627,7 @@ CALLREF {
 CALL $_beforeChangeOwner_181183e6_internal_macro$
 
 .macro _beforeChangeOwner_181183e6_internal_macro
-.loc ../contracts/Nft.sol, 82
+.loc ../contracts/Nft.sol, 83
 CALLREF {
 	CALL $TIP4_3Nft__beforeChangeOwner_181183e6_macro$
 }
@@ -629,7 +638,7 @@ CALLREF {
 CALL $_afterChangeOwner_25282549_internal_macro$
 
 .macro _afterChangeOwner_25282549_internal_macro
-.loc ../contracts/Nft.sol, 91
+.loc ../contracts/Nft.sol, 92
 CALLREF {
 	CALL $TIP4_3Nft__afterChangeOwner_25282549_macro$
 }
@@ -644,7 +653,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Nft.sol, 94
+.loc ../contracts/Nft.sol, 95
 OVER
 PUSHCONT {
 	LDREF
@@ -665,7 +674,7 @@ CALLREF {
 THROW 0
 
 .macro burn_89afcb44_internal_macro
-.loc ../contracts/Nft.sol, 94
+.loc ../contracts/Nft.sol, 95
 DEPTH
 ADDCONST -5
 PICK
@@ -675,9 +684,9 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWIFNOT 103
-.loc ../contracts/Nft.sol, 95
-ACCEPT
 .loc ../contracts/Nft.sol, 96
+ACCEPT
+.loc ../contracts/Nft.sol, 97
 GETGLOB 14
 GETGLOB 13
 GETGLOB 11
@@ -703,12 +712,12 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/Nft.sol, 102
+.loc ../contracts/Nft.sol, 103
 DUP
 CALLREF {
 	CALL $_destructIndex_d3dd7d3c_internal_macro$
 }
-.loc ../contracts/Nft.sol, 103
+.loc ../contracts/Nft.sol, 104
 NEWC
 STSLICECONST x42_
 STSLICE
