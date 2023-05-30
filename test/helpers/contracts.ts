@@ -14,6 +14,10 @@ export class Contracts {
         return Number(await locklift.provider.getBalance(address));
     }
 
+    static async getCodeHash(address: Address): Promise<string | undefined> {
+        return locklift.provider.getFullContractState({address}).then(({state}) => state?.codeHash)
+    }
+
     static async checkExists(address: Address, expected: boolean) {
         const actual = await Contracts.exists(address);
         expect(actual).to.be.eq(expected, 'Wrong contract state');

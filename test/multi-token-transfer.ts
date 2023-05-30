@@ -35,7 +35,6 @@ describe("Test multi token transferring", async function () {
             id,
             owner: receiver.address
         });
-        await MultiTokens.checkJson(receiverWallet, await MultiTokens.getJson(wallet));
 
         await wallet.methods.transfer({
             count: TRANSFER_SECOND,

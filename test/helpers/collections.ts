@@ -130,7 +130,10 @@ export class Collections {
     }
 
     static async getTotalMultiTokenSupply(contract: AnyMultiTokenCollectionContract, id: string): Promise<number> {
-        return Number((await contract.methods.totalMultiTokenSupply({answerId: 0, tokenId: id}).call()).count);
+        let nftAddr = await Collections.nftAddress(contract, id)
+        let nft = Nfts.attachDeployed(nftAddr)
+
+        return Number((await nft.methods.multiTokenSupply({answerId: 0}).call()).count);
     }
 
     static async getOwner(contract: AnyMultiTokenCollectionContract): Promise<Address> {
@@ -258,6 +261,7 @@ export class Collections {
         count: number = 5
     ): Promise<{
         wallet: MultiTokenWalletContract;
+        nft: NftContract;
         id: string;
     }> {
         const { traceTree } = await locklift.tracing.trace(collection.methods.mintToken({
@@ -282,10 +286,20 @@ export class Collections {
             id,
             owner: owner.address
         });
-        await MultiTokens.checkJson(wallet, TOKEN_METADATA);
         await MultiTokens.checkBalance(wallet, count);
+
+        const nftAddress = await Collections.nftAddress(collection, id);
+        const nft = Nfts.attachDeployed(nftAddress);
     
-        return { wallet, id };
+        await Nfts.checkInfo(nft, {
+            collection: collection.address,
+            id,
+            owner: collection.address,
+            manager: collection.address
+        });
+        await Nfts.checkJson(nft, TOKEN_METADATA);
+    
+        return { wallet, nft, id };
     }
     
     static async mintTokenWithRoyalty(
@@ -301,6 +315,7 @@ export class Collections {
         }
     ): Promise<{
         wallet: MultiTokenWalletWithRoyaltyContract;
+        nft: NftWithRoyaltyContract;
         id: string;
     }> {
         const { traceTree } = await locklift.tracing.trace(collection.methods.mintToken({
@@ -327,13 +342,28 @@ export class Collections {
             id,
             owner: owner.address
         });
-        await MultiTokens.checkJson(wallet, TOKEN_METADATA);
         await MultiTokens.checkBalance(wallet, count);
         await MultiTokens.checkRoyaltyInfo(wallet, {
             royalty: royaltyInfo.royalty,
             royaltyAddress: royaltyInfo.royaltyAddress        
         });
+
+        const nftAddress = await Collections.nftAddress(collection, id);
     
-        return { wallet, id };
+        const nft = Nfts.attachDeployedWithRoyalty(nftAddress);
+        await Nfts.checkInfo(nft, {
+            collection: collection.address,
+            id,
+            owner: collection.address,
+            manager: collection.address
+        });
+        await Nfts.checkJson(nft, TOKEN_METADATA);
+        await Nfts.checkRoyaltyInfo(nft, {
+            royalty: royaltyInfo.royalty,
+            royaltyAddress: royaltyInfo.royaltyAddress
+        });
+
+    
+        return { wallet, nft, id };
     }
 }

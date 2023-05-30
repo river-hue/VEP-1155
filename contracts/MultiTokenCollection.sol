@@ -75,7 +75,8 @@ contract MultiTokenCollection is
             json,
             NftGas.INDEX_DEPLOY_VALUE,
             NftGas.INDEX_DESTROY_VALUE,
-            _codeIndex
+            _codeIndex,
+            uint128(1)
         ); 
 
         emit NftCreated(
@@ -96,18 +97,42 @@ contract MultiTokenCollection is
         address remainingGasTo,
         bool notify,
         TvmCell payload
-    ) external internalMsg onlyOwner responsible returns(uint256, address) {
+    ) external internalMsg onlyOwner responsible returns(uint256, address, address) {
 
         uint256 tokenId = _beforeMint(tokenOwner);
-        _tokenSupply[tokenId] += count;
+        
+        TvmCell codeNft = _buildNftCode(address(this));
+        TvmCell stateNft = _buildNftState(codeNft, tokenId);
+        address nftAddr = new Nft{
+            stateInit: stateNft,
+            value: NftGas.NFT_DEPLOY_VALUE,
+            flag: MsgFlag.SENDER_PAYS_FEES
+        }(
+            address(this),
+            remainingGasTo,
+            NftGas.TARGET_NFT_BALANCE,
+            json,
+            NftGas.INDEX_DEPLOY_VALUE,
+            NftGas.INDEX_DESTROY_VALUE,
+            _codeIndex,
+            count
+        ); 
 
-        TvmCell tokenCode = _buildTokenCode(address(this));
+        emit NftCreated(
+            tokenId, 
+            nftAddr,
+            address(this),
+            address(this), 
+            msg.sender
+        );
+
+        TvmCell tokenCode = _buildTokenCode(address(this), tokenId, false);
         TvmCell tokenState = _buildTokenState(tokenId, tokenOwner);
 
         TvmCell params = abi.encode(
+            nftAddr,
 			count,
             uint128(TokenGas.TARGET_TOKEN_BALANCE),
-            json,
             uint128(NftGas.INDEX_DEPLOY_VALUE),
             uint128(NftGas.INDEX_DESTROY_VALUE),
             _codeIndex,
@@ -129,7 +154,66 @@ contract MultiTokenCollection is
             msg.sender
         );
         
-        return { value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED } (tokenId, tokenAddr);
+        return { value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED } (tokenId, tokenAddr, nftAddr);
+    }
+
+function onAcceptMultiTokensBurn(
+        uint128 count,
+        uint256 id,
+        address owner,
+        address remainingGasTo,
+        address callbackTo,
+        TvmCell payload
+    ) external internalMsg virtual override {
+        require(msg.sender == _resolveToken(id, owner));
+        tvm.rawReserve(_reserve(), 0);
+
+        address nft = _resolveNft(id);
+
+        TvmCell params = abi.encode(count, id, owner, remainingGasTo, callbackTo, payload);
+
+        IMultiTokenNftBurn(nft).burnToken{
+            callback: MultiTokenCollection.onTokenSupplyUpdate, value: 0, flag: MsgFlag.ALL_NOT_RESERVED
+            }(count, id, owner, params);
+        
+    }
+
+    function onTokenSupplyUpdate(uint128 tokenSupply, TvmCell params) external {
+        (uint128 count,
+        uint256 id,
+        address owner,
+        address remainingGasTo,
+        address callbackTo,
+        TvmCell payload) = abi.decode(params, (uint128, uint256, address, address, address, TvmCell));
+        require(msg.sender == _resolveNft(id));
+
+        if (tokenSupply == 0) {
+            _decreaseTotalSupply();
+        }
+
+        emit MultiTokenBurned(id, count, owner);
+
+        if (callbackTo.value == 0) {
+            remainingGasTo.transfer({
+                value: 0,
+                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
+                bounce: false
+            });
+        } else {
+            IMultiTokenBurnCallback(callbackTo).onMultiTokenBurn{
+                value: 0,
+                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
+                bounce: false
+            }(
+                address(this),
+                id,
+                count,
+                owner,
+                msg.sender,
+                remainingGasTo,
+                payload
+            );
+        }
     }
 
     function _beforeMint(address mintFor) internal returns (uint256) {

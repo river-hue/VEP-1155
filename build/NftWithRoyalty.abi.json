@@ -14,7 +14,8 @@
 				{"name":"indexDestroyValue","type":"uint128"},
 				{"name":"codeIndex","type":"cell"},
 				{"name":"royaltyAddress","type":"address"},
-				{"name":"royalty","type":"uint128"}
+				{"name":"royalty","type":"uint128"},
+				{"name":"count","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -28,6 +29,29 @@
 			"outputs": [
 				{"name":"receiver","type":"address"},
 				{"name":"royaltyAmount","type":"uint128"}
+			]
+		},
+		{
+			"name": "multiTokenSupply",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"count","type":"uint128"}
+			]
+		},
+		{
+			"name": "burnToken",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"count","type":"uint128"},
+				{"name":"id","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+				{"name":"tokenSupply","type":"uint128"},
+				{"name":"next","type":"cell"}
 			]
 		},
 		{
@@ -187,6 +211,7 @@
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_codeIndex","type":"cell"},
+		{"name":"_tokenSupply","type":"uint128"},
 		{"name":"_royaltyAddress","type":"address"},
 		{"name":"_royalty","type":"uint128"}
 	]

@@ -20,6 +20,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
     uint256 _id;
     address _collection;
     address _owner;
+    address _nft;
 
     uint128 _balance;
 
@@ -31,6 +32,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
     function _initWalletBase(
         address owner,
         address collection,
+        address nft,
         uint256 id,
         uint128 balance,
         uint128 remainOnNft,
@@ -45,6 +47,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
 
         _id = id;
         _collection = collection;
+        _nft = nft;
 
         _owner = owner;
         _balance = balance;
@@ -122,6 +125,8 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
             
         _balance -= count;
 
+        _afterTokenTransfer(count, recipient, remainingGasTo);
+
         IMultiTokenWallet(recipientToken).acceptTransfer{ value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: true }(
             count,
             _owner,
@@ -150,6 +155,8 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
 
         _balance -= count;
 
+        _afterTokenTransfer(count, recipientToken, remainingGasTo);
+
         IMultiTokenWallet(recipientToken).acceptTransfer{ value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: true }(
             count,
             _owner,
@@ -175,6 +182,8 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
 
         _balance += count;
 
+        _afterTokenTransfer(count, _owner, remainingGasTo);
+        
         emit MultiTokenTransfered(sender, msg.sender, _owner, count, _balance);
 
         if (notify) {
@@ -212,7 +221,8 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
         tvm.rawReserve(0, 4);
 
         _balance -= count;
-
+        _afterTokenBurn(count, remainingGasTo);
+        
         IMultiTokenAcceptBurnCallback(_collection).onAcceptMultiTokensBurn{
             value: 0,
             flag: MsgFlag.ALL_NOT_RESERVED,
@@ -239,6 +249,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
         if (functionId == tvm.functionId(IMultiTokenWallet.acceptTransfer)) {
             uint128 count = body.decode(uint128);
             _balance += count;
+            _afterTokenTransferBounce(count, msg.sender);
             IMultiTokenBounceTransferCallback(_owner).onMultiTokenBounceTransfer{
                 value: 0,
                 flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
@@ -259,4 +270,7 @@ abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
     function _buildTokenState(address owner) internal virtual view returns (TvmCell);
 
     function _deployToken(TvmCell tokenState, uint128 deployWalletValue, address remainingGasTo) virtual internal view returns (address);
+    function _afterTokenTransfer(uint128 count, address recipient, address remainingGasTo) virtual internal;
+    function _afterTokenBurn(uint128 count, address remainingGasTo) virtual internal;
+    function _afterTokenTransferBounce(uint128 count, address recipient) virtual internal;
 }

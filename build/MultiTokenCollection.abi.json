@@ -43,23 +43,38 @@
 			],
 			"outputs": [
 				{"name":"value0","type":"uint256"},
-				{"name":"value1","type":"address"}
+				{"name":"value1","type":"address"},
+				{"name":"value2","type":"address"}
 			]
 		},
 		{
-			"name": "totalMultiTokenSupply",
+			"name": "onAcceptMultiTokensBurn",
 			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"tokenId","type":"uint256"}
+				{"name":"count","type":"uint128"},
+				{"name":"id","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"callbackTo","type":"address"},
+				{"name":"payload","type":"cell"}
 			],
 			"outputs": [
-				{"name":"count","type":"uint128"}
+			]
+		},
+		{
+			"name": "onTokenSupplyUpdate",
+			"inputs": [
+				{"name":"tokenSupply","type":"uint128"},
+				{"name":"params","type":"cell"}
+			],
+			"outputs": [
 			]
 		},
 		{
 			"name": "multiTokenWalletCode",
 			"inputs": [
-				{"name":"answerId","type":"uint32"}
+				{"name":"answerId","type":"uint32"},
+				{"name":"id","type":"uint256"},
+				{"name":"isEmpty","type":"bool"}
 			],
 			"outputs": [
 				{"name":"code","type":"cell"}
@@ -68,7 +83,9 @@
 		{
 			"name": "multiTokenCodeHash",
 			"inputs": [
-				{"name":"answerId","type":"uint32"}
+				{"name":"answerId","type":"uint32"},
+				{"name":"id","type":"uint256"},
+				{"name":"isEmpty","type":"bool"}
 			],
 			"outputs": [
 				{"name":"codeHash","type":"uint256"}
@@ -83,19 +100,6 @@
 			],
 			"outputs": [
 				{"name":"token","type":"address"}
-			]
-		},
-		{
-			"name": "onAcceptMultiTokensBurn",
-			"inputs": [
-				{"name":"count","type":"uint128"},
-				{"name":"id","type":"uint256"},
-				{"name":"owner","type":"address"},
-				{"name":"remainingGasTo","type":"address"},
-				{"name":"callbackTo","type":"address"},
-				{"name":"payload","type":"cell"}
-			],
-			"outputs": [
 			]
 		},
 		{
@@ -233,16 +237,6 @@
 	],
 	"events": [
 		{
-			"name": "MultiTokenBurned",
-			"inputs": [
-				{"name":"id","type":"uint256"},
-				{"name":"count","type":"uint128"},
-				{"name":"owner","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "MultiTokenCreated",
 			"inputs": [
 				{"name":"id","type":"uint256"},
@@ -250,6 +244,16 @@
 				{"name":"balance","type":"uint128"},
 				{"name":"owner","type":"address"},
 				{"name":"creator","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "MultiTokenBurned",
+			"inputs": [
+				{"name":"id","type":"uint256"},
+				{"name":"count","type":"uint128"},
+				{"name":"owner","type":"address"}
 			],
 			"outputs": [
 			]
@@ -302,7 +306,6 @@
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_deployIndexBasisValue","type":"uint128"},
 		{"name":"_tokenCode","type":"cell"},
-		{"name":"_tokenSupply","type":"map(uint256,uint128)"},
 		{"name":"_deployer","type":"address"},
 		{"name":"_nonce","type":"uint64"},
 		{"name":"_platformCode","type":"cell"},

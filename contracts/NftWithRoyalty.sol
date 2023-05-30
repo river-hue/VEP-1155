@@ -18,7 +18,8 @@ contract NftWithRoyalty is Nft, RoyaltySupport {
         uint128 indexDestroyValue,
         TvmCell codeIndex,
         address royaltyAddress,
-        uint128 royalty
+        uint128 royalty,
+        uint128 count
     ) Nft (
         owner,
         sendGasTo,
@@ -26,7 +27,8 @@ contract NftWithRoyalty is Nft, RoyaltySupport {
         json,
         indexDeployValue,
         indexDestroyValue,
-        codeIndex
+        codeIndex,
+        count
     ) public {
         _initRoyalty(royaltyAddress, royalty);
     }

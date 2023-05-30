@@ -6,7 +6,7 @@ contract MultiTokenWalletPlatform {
 
     uint256 static _id;
     address static _collection;
-
+    
     address static _owner;
 
     constructor(TvmCell walletCode, TvmCell params, address sender, address remainingGasTo)
