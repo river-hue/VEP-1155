@@ -76,7 +76,7 @@ contract MultiTokenCollection is
             NftGas.INDEX_DEPLOY_VALUE,
             NftGas.INDEX_DESTROY_VALUE,
             _codeIndex,
-            uint128(1)
+            uint128(0)
         ); 
 
         emit NftCreated(

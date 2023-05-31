@@ -362,7 +362,7 @@ CALLREF {
 	CALL $_buildNftState_c971fdf8_internal_macro$
 }
 .loc ../contracts/MultiTokenCollection.sol, 67
-PUSHINT 1
+PUSHINT 0
 GETGLOB 15
 PUSHINT 100000000
 PUSHINT 150000000

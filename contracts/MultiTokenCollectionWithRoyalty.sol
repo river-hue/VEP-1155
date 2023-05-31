@@ -80,7 +80,7 @@ contract MultiTokenCollectionWithRoyalty is
             _codeIndex,
             royaltyAddress,
             royalty,
-            uint128(1)
+            uint128(0)
         ); 
 
         emit NftCreated(
