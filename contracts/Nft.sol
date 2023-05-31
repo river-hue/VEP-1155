@@ -7,6 +7,7 @@ pragma AbiHeader pubkey;
 import './modules/TIP4_1/TIP4_1Nft.sol';
 import './modules/TIP4_2/TIP4_2Nft.sol';
 import './modules/TIP4_3/TIP4_3Nft.sol';
+import "./modules/TIP6/ITIP6.sol";
 import './libraries/MsgFlag.sol';
 import './libraries/NftGas.sol';
 import './interfaces/IMultiTokenNftBurn.sol';
@@ -40,6 +41,7 @@ contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft, IMultiTokenNftBurn, IMultiToken
     ) public {
         tvm.accept();
         _tokenSupply = tokenSupply;
+        _supportedInterfaces[bytes4(tvm.functionId(ITIP6.supportsInterface))] = true;
         _supportedInterfaces[bytes4(tvm.functionId(IMultiTokenNft.multiTokenSupply))] = true;
     }
 
