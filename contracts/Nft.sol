@@ -8,7 +8,7 @@ import './modules/TIP4_1/TIP4_1Nft.sol';
 import './modules/TIP4_2/TIP4_2Nft.sol';
 import './modules/TIP4_3/TIP4_3Nft.sol';
 import "./modules/TIP6/ITIP6.sol";
-import './libraries/MsgFlag.sol';
+import '@broxus/contracts/contracts/libraries/MsgFlag.tsol';
 import './libraries/NftGas.sol';
 import './interfaces/IMultiTokenNftBurn.sol';
 import './interfaces/IMultiTokenNft.sol';

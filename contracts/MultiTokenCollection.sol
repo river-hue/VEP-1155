@@ -14,7 +14,7 @@ import "./Nft.sol";
 
 import "./errors/TokenErrors.sol";
 import "./libraries/TokenGas.sol";
-import './libraries/MsgFlag.sol';
+import '@broxus/contracts/contracts/libraries/MsgFlag.tsol';
 
 contract MultiTokenCollection is
    OwnableInternal,

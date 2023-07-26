@@ -8,7 +8,7 @@ import "../modules/TIP6/TIP6.sol";
 import '../interfaces/IRoyaltyInfo.sol';
 
 import '../libraries/Consts.sol';
-import "../libraries/MsgFlag.sol";
+import "@broxus/contracts/contracts/libraries/MsgFlag.tsol";
 
 abstract contract RoyaltySupport is TIP6, IRoyaltyInfo {
 

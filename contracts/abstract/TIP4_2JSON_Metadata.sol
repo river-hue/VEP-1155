@@ -6,7 +6,7 @@ pragma AbiHeader pubkey;
 import '../modules/TIP4_2/interfaces/ITIP4_2JSON_Metadata.sol';
 import '../modules/TIP6/TIP6.sol';
 
-import '../libraries/MsgFlag.sol';
+import '@broxus/contracts/contracts/libraries/MsgFlag.tsol';
 
 abstract contract TIP4_2JSON_Metadata is ITIP4_2JSON_Metadata, TIP6 {
     /// JSON metadata

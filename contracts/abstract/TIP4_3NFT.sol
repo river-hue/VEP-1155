@@ -7,7 +7,7 @@ import '../modules/TIP4_3/interfaces/ITIP4_3NFT.sol';
 import '../modules/TIP4_3/Index.sol';
 import '../modules/TIP6/TIP6.sol';
 
-import '../libraries/MsgFlag.sol';
+import '@broxus/contracts/contracts/libraries/MsgFlag.tsol';
 
 abstract contract TIP4_3NFT is ITIP4_3NFT, TIP6 {
     /// Values for deploy/destroy

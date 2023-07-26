@@ -14,7 +14,7 @@ import "./NftWithRoyalty.sol";
 
 import "./errors/TokenErrors.sol";
 import "./libraries/TokenGas.sol";
-import './libraries/MsgFlag.sol';
+import '@broxus/contracts/contracts/libraries/MsgFlag.tsol';
 
 contract MultiTokenCollectionWithRoyalty is
    OwnableInternal,

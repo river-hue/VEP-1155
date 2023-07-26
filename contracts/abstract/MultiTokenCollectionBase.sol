@@ -10,7 +10,7 @@ import '../interfaces/IMultiTokenNftBurn.sol';
 
 import "../modules/TIP6/TIP6.sol";
 
-import '../libraries/MsgFlag.sol';
+import '@broxus/contracts/contracts/libraries/MsgFlag.tsol';
 
 
 abstract contract MultiTokenCollectionBase is

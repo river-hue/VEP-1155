@@ -13,7 +13,7 @@ import "../interfaces/IMultiTokenMintCallback.sol";
 
 
 import "../errors/TokenErrors.sol";
-import "../libraries/MsgFlag.sol";
+import "@broxus/contracts/contracts/libraries/MsgFlag.tsol";
 
 abstract contract MultiTokenWalletBase is IMultiTokenWallet, TIP6 {
 

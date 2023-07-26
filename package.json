@@ -12,6 +12,9 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@broxus/contracts": "^1.1.1"
+  },
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/mocha": "^9.1.0",
